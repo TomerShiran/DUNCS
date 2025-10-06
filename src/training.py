@@ -349,14 +349,6 @@ def train(
 
     figures_saving_path = Path(saving_path).parent / "simulations" / "results" / "plots"
     if plot_curves:
-        if acc_train_list is not None and acc_valid_list is not None:
-            fig_acc = plot_accuracy_curve(
-                list(range(1, len(acc_train_list) + 1)), acc_train_list, acc_valid_list,
-                model_name=model._get_name()
-            )
-            if save_figures:
-                fig_acc.savefig(figures_saving_path / f"Accuracy_{model.get_model_name()}_{dt_string_for_save}.png")
-            fig_acc.show()
         fig_loss = plot_learning_curve(
             list(range(1, len(loss_valid_list) + 1)), loss_train_list, loss_valid_list,
             model_name=model._get_name(),
@@ -365,17 +357,6 @@ def train(
             range_train_loss=loss_train_list_ranges,
             range_valid_loss=loss_valid_list_ranges
         )
-
-        # plt.figure(figsize=(10, 6))
-        # plt.plot(range(1, len(reg_loss_train_list) + 1), reg_loss_train_list, label="eigen training Loss")
-        # plt.xlabel("Epoch")
-        # plt.ylabel("Loss")
-        # plt.title("Eigen Regularization Loss")
-        # plt.grid(True)
-        # plt.legend()
-        # plt.tight_layout()
-        # plt.show()
-
         if save_figures:
             fig_loss.savefig(figures_saving_path / f"Loss_{model.get_model_name()}_{dt_string_for_save}.png")
         fig_loss.show()
