@@ -49,9 +49,9 @@ evaluation:
   covariance_reconstruction: "averaging"    # [averaging, admm, admm_cvxpy]
   admm_iterations: [20, 500]
   models:
-    SparseNet:
-      tau: 8
-      diff_method: "esprit"
+#    SparseNet:
+#      tau: 8
+#      diff_method: "esprit"
   augmented_methods: []
   subspace_methods: ["esprit"]
 

@@ -51,23 +51,19 @@ evaluation:
   balance_factor: 1.0
   covariance_reconstruction: "admm"    # [averaging, admm, admm_cvxpy]
   admm_iterations: [20, 500]
-#  models:
-#    SparseNet:
-#      tau: 8
-#      diff_method: "esprit"
   models:
-    DUNCS:
-      num_iterations: 20
-      subspace_method: "esprit"
-      criterion: "rmspe"    # admm_objective, rmspe
-      mu: ${admm_params.mu}   # pulled from top-level admm_params
-      rho: ${admm_params.rho}  # pulled from top-level admm_params
+#    DUNCS:
+#      num_iterations: 20
+#      subspace_method: "esprit"
+#      criterion: "rmspe"    # admm_objective, rmspe
+#      mu: ${admm_params.mu}   # pulled from top-level admm_params
+#      rho: ${admm_params.rho}  # pulled from top-level admm_params
   subspace_methods: ["esprit"]
 
 commands:
   create_data: true
   save_dataset: false
-  train_model: false
+  train_model: true
   save_model: false
   evaluate_mode: true
   plot_results: true
