@@ -1,0 +1,70 @@
+system_model:
+  N: 7
+  M: 10
+  T: 500
+  snr: 10
+  eta: 0.0
+  bias: 0.0
+  sv_noise_var: 0.0
+  field_type: "Far"
+  signal_nature: "non-coherent"
+  array_form: "mra-7"
+  doa_range: [-70, 70]
+  min_gap: 5
+
+
+admm_params:
+  mu: 2.5e-3
+  rho:  2
+
+
+model:
+  model_type: "SparseNet"
+  model_params:
+    tau: 8
+    diff_method: "esprit"
+
+training:
+  samples_size: 20480
+  train_test_ratio: 0.1
+  epochs: 160
+  batch_size: 256
+  optimizer: "AdamW"
+  learning_rate: 5e-4
+  weight_decay: 2e-5
+  step_size: 50
+  gamma: 0.5
+  scheduler: "CustomLR"   # ReduceLROnPlateau, StepLR
+  training_objective: "angle"
+  balance_factor: 1.0
+  true_doa_train: null
+  true_range_train: null
+  true_doa_test: null
+  true_range_test: null
+
+
+evaluation:
+  criterion: [rmspe]
+  balance_factor: 1.0
+  covariance_reconstruction: "averaging"    # [averaging, admm, admm_cvxpy]
+  admm_iterations: [20, 500]
+  models:
+    SparseNet:
+      tau: 8
+      diff_method: "esprit"
+  augmented_methods: []
+  subspace_methods: ["esprit"]
+
+commands:
+  create_data: true
+  save_dataset: false
+  train_model: false
+  save_model: false
+  evaluate_mode: true
+  plot_results: true
+  save_plots: false
+
+# Optional scenario sweep:
+scenario:
+#  snr: [15, 20]
+#  T: [500, 400, 300, 250, 200, 150, 100, 50, 30]

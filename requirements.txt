@@ -1,0 +1,8 @@
+matplotlib==3.10.0
+numpy==2.2.3
+scikit_learn==1.6.1
+scipy==1.15.2
+torch==2.6.0
+tqdm==4.67.1
+omegaconf
+cvxpy

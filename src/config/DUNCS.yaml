@@ -1,0 +1,79 @@
+system_model:
+  N: 7
+  M: 10
+  T: 500
+  snr: 10
+  eta: 0.0
+  bias: 0.0
+  sv_noise_var: 0.0
+  field_type: "Far"
+  signal_nature: "non-coherent"
+  array_form: "mra-7"
+  doa_range: [-70, 70]
+  min_gap: 5
+
+
+admm_params:
+  mu: 2.5e-3
+  rho:  2
+
+
+model:
+  model_type: "DUNCS"
+  model_params:
+    num_iterations: 20
+    subspace_method: "esprit"
+    criterion: "rmspe"    # admm_objective, rmspe
+    mu: ${admm_params.mu}   # pulled from top-level admm_params
+    rho: ${admm_params.rho}  # pulled from top-level admm_params
+
+
+training:
+  samples_size: 7000
+  train_test_ratio: 0.1
+  epochs: 90
+  batch_size: 128
+  optimizer: "AdamW"
+  learning_rate: 5e-4
+  weight_decay: 1e-5
+  step_size: 40
+  gamma: 0.5
+  scheduler: "ReduceLROnPlateau"   # ReduceLROnPlateau
+  training_objective: "angle"
+  balance_factor: 1.0
+  true_doa_train: null
+  true_range_train: null
+  true_doa_test: null
+  true_range_test: null
+
+evaluation:
+  criterion: [rmspe]                # [rmspe, admm_objective]
+  balance_factor: 1.0
+  covariance_reconstruction: "admm"    # [averaging, admm, admm_cvxpy]
+  admm_iterations: [20, 500]
+#  models:
+#    SparseNet:
+#      tau: 8
+#      diff_method: "esprit"
+  models:
+    DUNCS:
+      num_iterations: 20
+      subspace_method: "esprit"
+      criterion: "rmspe"    # admm_objective, rmspe
+      mu: ${admm_params.mu}   # pulled from top-level admm_params
+      rho: ${admm_params.rho}  # pulled from top-level admm_params
+  subspace_methods: ["esprit"]
+
+commands:
+  create_data: true
+  save_dataset: false
+  train_model: false
+  save_model: false
+  evaluate_mode: true
+  plot_results: true
+  save_plots: false
+
+# Optional scenario sweep:
+scenario:
+#  snr: [15, 20]
+#  T: [500, 400, 300, 250, 200, 150, 100, 50, 30]
